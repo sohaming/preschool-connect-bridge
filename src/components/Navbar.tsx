@@ -2,7 +2,7 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
-import { Home, User } from "lucide-react";
+import { Home, User, Bookmark } from "lucide-react";
 
 const Navbar = () => {
   const location = useLocation();
@@ -12,10 +12,10 @@ const Navbar = () => {
     <header className="bg-white shadow-sm">
       <div className="container mx-auto px-4 py-3 flex items-center justify-between">
         <Link to="/" className="flex items-center gap-2">
-          <div className="bg-blue-500 text-white p-2 rounded-lg">
-            <Home size={20} />
+          <div className="bg-purple-500 text-white p-2 rounded-lg">
+            <Bookmark size={20} />
           </div>
-          <span className="font-bold text-xl text-blue-700">PreSchool Connect</span>
+          <span className="font-bold text-xl text-purple-700">Poppins</span>
         </Link>
         
         <nav className="hidden md:flex items-center gap-6">
@@ -25,8 +25,8 @@ const Navbar = () => {
           <Link to="/about" className={`nav-link ${isActive('/about') ? 'active' : ''}`}>
             About
           </Link>
-          <Link to="/features" className={`nav-link ${isActive('/features') ? 'active' : ''}`}>
-            Features
+          <Link to="/parent-dashboard" className={`nav-link ${isActive('/parent-dashboard') ? 'active' : ''}`}>
+            Find Schools
           </Link>
           <Link to="/contact" className={`nav-link ${isActive('/contact') ? 'active' : ''}`}>
             Contact
@@ -41,7 +41,7 @@ const Navbar = () => {
             </Button>
           </Link>
           <Link to="/register">
-            <Button className="bg-blue-500 hover:bg-blue-600">Register</Button>
+            <Button className="bg-purple-500 hover:bg-purple-600">Register</Button>
           </Link>
         </div>
       </div>

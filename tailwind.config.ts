@@ -64,6 +64,18 @@ export default {
 					ring: 'hsl(var(--sidebar-ring))'
 				},
 				// Custom theme colors
+				'theme': {
+					100: '#333333',
+					300: '#222222',
+					500: '#1A1A1A',
+					700: '#000000',
+				},
+				'purple': {
+					100: '#E6E0FF',
+					300: '#C4B5FF',
+					500: '#9b87f5',
+					700: '#7E69AB',
+				},
 				'blue': {
 					100: '#E6F0FF',
 					300: '#A3CEFF',

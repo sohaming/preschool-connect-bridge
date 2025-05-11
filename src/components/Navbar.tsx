@@ -2,20 +2,20 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
-import { Home, User, Bookmark } from "lucide-react";
+import { School, User } from "lucide-react";
 
 const Navbar = () => {
   const location = useLocation();
   const isActive = (path: string) => location.pathname === path;
 
   return (
-    <header className="bg-white shadow-sm">
+    <header className="bg-theme-500 shadow-md">
       <div className="container mx-auto px-4 py-3 flex items-center justify-between">
         <Link to="/" className="flex items-center gap-2">
           <div className="bg-purple-500 text-white p-2 rounded-lg">
-            <Bookmark size={20} />
+            <School size={20} />
           </div>
-          <span className="font-bold text-xl text-purple-700">Poppins</span>
+          <span className="font-bold text-xl text-purple-300">Poppins</span>
         </Link>
         
         <nav className="hidden md:flex items-center gap-6">
@@ -35,13 +35,13 @@ const Navbar = () => {
         
         <div className="flex items-center gap-3">
           <Link to="/login">
-            <Button variant="outline" className="flex items-center gap-2">
+            <Button variant="outline" className="flex items-center gap-2 border-purple-500 text-purple-300 hover:bg-theme-300">
               <User size={18} />
               <span>Login</span>
             </Button>
           </Link>
           <Link to="/register">
-            <Button className="bg-purple-500 hover:bg-purple-600">Register</Button>
+            <Button className="bg-purple-500 hover:bg-purple-700">Register</Button>
           </Link>
         </div>
       </div>

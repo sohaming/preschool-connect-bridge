@@ -2,16 +2,18 @@
 import React from 'react';
 import Layout from '@/components/Layout';
 import Hero from '@/components/Hero';
-import Features from '@/components/Features';
-import Testimonials from '@/components/Testimonials';
+import WhyUs from '@/components/WhyUs';
+import WhatWeOffer from '@/components/WhatWeOffer';
+import OurGoal from '@/components/OurGoal';
 import CallToAction from '@/components/CallToAction';
 
 const HomePage = () => {
   return (
     <Layout>
       <Hero />
-      <Features />
-      <Testimonials />
+      <WhyUs />
+      <WhatWeOffer />
+      <OurGoal />
       <CallToAction />
     </Layout>
   );

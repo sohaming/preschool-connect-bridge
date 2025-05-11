@@ -14,6 +14,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import { Checkbox } from "@/components/ui/checkbox";
 
 interface FilterProps {
   onFilterChange: (filters: any) => void;
@@ -23,16 +24,34 @@ const SchoolsFilter = ({ onFilterChange }: FilterProps) => {
   const [sortBy, setSortBy] = useState('overallRating');
   const [fees, setFees] = useState('');
   const [location, setLocation] = useState('');
+  const [ranking, setRanking] = useState('');
+  const [classGrade, setClassGrade] = useState('');
+  const [boardType, setBoardType] = useState('');
+  const [schoolType, setSchoolType] = useState('');
+  const [gender, setGender] = useState('');
   const [isLocationOpen, setIsLocationOpen] = useState(false);
+  const [isBoardOpen, setIsBoardOpen] = useState(false);
+  const [isSchoolTypeOpen, setIsSchoolTypeOpen] = useState(false);
+  const [isGenderOpen, setIsGenderOpen] = useState(false);
 
   const handleReset = () => {
     setSortBy('overallRating');
     setFees('');
     setLocation('');
+    setRanking('');
+    setClassGrade('');
+    setBoardType('');
+    setSchoolType('');
+    setGender('');
     onFilterChange({
       sortBy: 'overallRating',
       fees: '',
       location: '',
+      ranking: '',
+      classGrade: '',
+      boardType: '',
+      schoolType: '',
+      gender: '',
     });
   };
 
@@ -41,6 +60,11 @@ const SchoolsFilter = ({ onFilterChange }: FilterProps) => {
       sortBy,
       fees,
       location,
+      ranking,
+      classGrade,
+      boardType,
+      schoolType,
+      gender,
     });
   };
 
@@ -132,24 +156,36 @@ const SchoolsFilter = ({ onFilterChange }: FilterProps) => {
                   />
                   <div className="max-h-48 overflow-y-auto space-y-2 mt-2">
                     <div className="flex items-center">
-                      <input type="checkbox" id="delhi" className="mr-2" />
+                      <Checkbox id="delhi" className="mr-2" onCheckedChange={() => setLocation('Delhi')} />
                       <Label htmlFor="delhi">Delhi (1245)</Label>
                     </div>
                     <div className="flex items-center">
-                      <input type="checkbox" id="mumbai" className="mr-2" />
+                      <Checkbox id="mumbai" className="mr-2" onCheckedChange={() => setLocation('Mumbai')} />
                       <Label htmlFor="mumbai">Mumbai (987)</Label>
                     </div>
                     <div className="flex items-center">
-                      <input type="checkbox" id="bangalore" className="mr-2" />
+                      <Checkbox id="bangalore" className="mr-2" onCheckedChange={() => setLocation('Bangalore')} />
                       <Label htmlFor="bangalore">Bangalore (854)</Label>
                     </div>
                     <div className="flex items-center">
-                      <input type="checkbox" id="hyderabad" className="mr-2" />
+                      <Checkbox id="hyderabad" className="mr-2" onCheckedChange={() => setLocation('Hyderabad')} />
                       <Label htmlFor="hyderabad">Hyderabad (621)</Label>
                     </div>
                     <div className="flex items-center">
-                      <input type="checkbox" id="chennai" className="mr-2" />
+                      <Checkbox id="chennai" className="mr-2" onCheckedChange={() => setLocation('Chennai')} />
                       <Label htmlFor="chennai">Chennai (532)</Label>
+                    </div>
+                    <div className="flex items-center">
+                      <Checkbox id="kolkata" className="mr-2" onCheckedChange={() => setLocation('Kolkata')} />
+                      <Label htmlFor="kolkata">Kolkata (487)</Label>
+                    </div>
+                    <div className="flex items-center">
+                      <Checkbox id="pune" className="mr-2" onCheckedChange={() => setLocation('Pune')} />
+                      <Label htmlFor="pune">Pune (412)</Label>
+                    </div>
+                    <div className="flex items-center">
+                      <Checkbox id="chandigarh" className="mr-2" onCheckedChange={() => setLocation('Chandigarh')} />
+                      <Label htmlFor="chandigarh">Chandigarh (278)</Label>
                     </div>
                   </div>
                 </div>
@@ -160,7 +196,7 @@ const SchoolsFilter = ({ onFilterChange }: FilterProps) => {
           {/* Class/Grade */}
           <div>
             <h3 className="font-semibold mb-3">CLASS</h3>
-            <Select>
+            <Select value={classGrade} onValueChange={setClassGrade}>
               <SelectTrigger className="w-full">
                 <SelectValue placeholder="Select class" />
               </SelectTrigger>
@@ -170,6 +206,8 @@ const SchoolsFilter = ({ onFilterChange }: FilterProps) => {
                 <SelectItem value="lkg">LKG</SelectItem>
                 <SelectItem value="ukg">UKG</SelectItem>
                 <SelectItem value="class1">Class 1</SelectItem>
+                <SelectItem value="class2">Class 2</SelectItem>
+                <SelectItem value="class3">Class 3</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -177,7 +215,7 @@ const SchoolsFilter = ({ onFilterChange }: FilterProps) => {
           {/* Ranking */}
           <div>
             <h3 className="font-semibold mb-3">RANKING</h3>
-            <Select>
+            <Select value={ranking} onValueChange={setRanking}>
               <SelectTrigger className="w-full">
                 <SelectValue placeholder="Select ranking" />
               </SelectTrigger>
@@ -189,6 +227,89 @@ const SchoolsFilter = ({ onFilterChange }: FilterProps) => {
                 <SelectItem value="1star">1 Star & Above</SelectItem>
               </SelectContent>
             </Select>
+          </div>
+          
+          {/* Board Type */}
+          <div>
+            <Collapsible open={isBoardOpen} onOpenChange={setIsBoardOpen}>
+              <CollapsibleTrigger asChild>
+                <div className="flex items-center justify-between cursor-pointer">
+                  <h3 className="font-semibold">BOARD TYPE</h3>
+                  {isBoardOpen ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
+                </div>
+              </CollapsibleTrigger>
+              
+              <CollapsibleContent>
+                <div className="mt-2 space-y-2">
+                  <div className="flex items-center">
+                    <Checkbox id="cbse" className="mr-2" onCheckedChange={() => setBoardType('cbse')} />
+                    <Label htmlFor="cbse">CBSE Board (825)</Label>
+                  </div>
+                  <div className="flex items-center">
+                    <Checkbox id="icse" className="mr-2" onCheckedChange={() => setBoardType('icse')} />
+                    <Label htmlFor="icse">ICSE Board (354)</Label>
+                  </div>
+                  <div className="flex items-center">
+                    <Checkbox id="state" className="mr-2" onCheckedChange={() => setBoardType('state')} />
+                    <Label htmlFor="state">State Board (612)</Label>
+                  </div>
+                </div>
+              </CollapsibleContent>
+            </Collapsible>
+          </div>
+
+          {/* School Type */}
+          <div>
+            <Collapsible open={isSchoolTypeOpen} onOpenChange={setIsSchoolTypeOpen}>
+              <CollapsibleTrigger asChild>
+                <div className="flex items-center justify-between cursor-pointer">
+                  <h3 className="font-semibold">SCHOOL TYPE</h3>
+                  {isSchoolTypeOpen ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
+                </div>
+              </CollapsibleTrigger>
+              
+              <CollapsibleContent>
+                <div className="mt-2 space-y-2">
+                  <div className="flex items-center">
+                    <Checkbox id="private" className="mr-2" onCheckedChange={() => setSchoolType('private')} />
+                    <Label htmlFor="private">Private Schools (1245)</Label>
+                  </div>
+                  <div className="flex items-center">
+                    <Checkbox id="government" className="mr-2" onCheckedChange={() => setSchoolType('government')} />
+                    <Label htmlFor="government">Government Schools (432)</Label>
+                  </div>
+                </div>
+              </CollapsibleContent>
+            </Collapsible>
+          </div>
+          
+          {/* Gender */}
+          <div>
+            <Collapsible open={isGenderOpen} onOpenChange={setIsGenderOpen}>
+              <CollapsibleTrigger asChild>
+                <div className="flex items-center justify-between cursor-pointer">
+                  <h3 className="font-semibold">GENDER</h3>
+                  {isGenderOpen ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
+                </div>
+              </CollapsibleTrigger>
+              
+              <CollapsibleContent>
+                <div className="mt-2 space-y-2">
+                  <div className="flex items-center">
+                    <Checkbox id="coed" className="mr-2" onCheckedChange={() => setGender('coed')} />
+                    <Label htmlFor="coed">Co-Education (1587)</Label>
+                  </div>
+                  <div className="flex items-center">
+                    <Checkbox id="boys" className="mr-2" onCheckedChange={() => setGender('boys')} />
+                    <Label htmlFor="boys">Boys Only (245)</Label>
+                  </div>
+                  <div className="flex items-center">
+                    <Checkbox id="girls" className="mr-2" onCheckedChange={() => setGender('girls')} />
+                    <Label htmlFor="girls">Girls Only (312)</Label>
+                  </div>
+                </div>
+              </CollapsibleContent>
+            </Collapsible>
           </div>
           
           <Button className="w-full bg-blue-600 hover:bg-blue-700 mt-4" onClick={handleApplyFilters}>

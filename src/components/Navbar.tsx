@@ -37,11 +37,14 @@ const Navbar = () => {
           <Link to="/login">
             <Button variant="outline" className="flex items-center gap-2 border-purple-500 text-purple-300 hover:bg-theme-300">
               <User size={18} />
-              <span>Login</span>
+              <span>Parent Login</span>
             </Button>
           </Link>
-          <Link to="/register">
-            <Button className="bg-purple-500 hover:bg-purple-700">Register</Button>
+          <Link to="/school-login">
+            <Button className="bg-purple-500 hover:bg-purple-700 flex items-center gap-2">
+              <School size={18} />
+              <span>School Login</span>
+            </Button>
           </Link>
         </div>
       </div>

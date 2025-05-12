@@ -13,8 +13,9 @@ import {
 } from "@/components/ui/select";
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/components/ui/use-toast';
+import { useSchools } from '@/context/SchoolsContext';
 import { 
-  School, 
+  School as SchoolIcon, 
   Upload, 
   MapPin, 
   Save,
@@ -23,31 +24,21 @@ import {
   Database
 } from "lucide-react";
 
-// Dummy school data for demo purposes
-const initialSchoolData = {
-  id: 101,
-  name: "Sunshine Academy",
-  type: "Private Unaided/Independent",
-  location: "Delhi, Delhi",
-  board: "CBSE",
-  rating: "AAAA",
-  fees: "₹5,000 - ₹8,000/month",
-  residential: "Day School",
-  gender: "Co-ed",
-  imageUrl: "/placeholder.svg",
-  description: "Sunshine Academy is committed to providing quality education at affordable prices to all children, focusing on holistic development and academic excellence.",
-  email: "info@sunshineacademy.edu",
-  phone: "+91 98765 43210",
-  website: "www.sunshineacademy.edu",
-  address: "123 Education Lane, Delhi, 110001",
-  facilities: ["Computer Lab", "Library", "Playground", "Science Lab"],
-  establishedYear: "1995"
-};
-
 const SchoolDashboard = () => {
-  const [schoolData, setSchoolData] = useState(initialSchoolData);
+  const { schools, updateSchool } = useSchools();
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
+  
+  // Find school with ID 101 (Sunshine Academy) or use the first one
+  const currentSchool = schools.find(s => s.id === 101) || schools[0];
+  
+  const [schoolData, setSchoolData] = useState(currentSchool);
+
+  useEffect(() => {
+    if (currentSchool) {
+      setSchoolData(currentSchool);
+    }
+  }, [currentSchool]);
 
   // Handle input changes
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -64,16 +55,15 @@ const SchoolDashboard = () => {
   const handleSave = () => {
     setIsLoading(true);
     
-    // Simulate API call to save data
+    // Update school data in context
+    updateSchool(schoolData.id, schoolData);
+    
     setTimeout(() => {
       setIsLoading(false);
       toast({
         title: "Changes saved",
         description: "Your school information has been updated successfully.",
       });
-      
-      // In a real app, this would update a database
-      console.log("School data saved:", schoolData);
     }, 1000);
   };
 
@@ -99,7 +89,7 @@ const SchoolDashboard = () => {
         <Card className="md:col-span-2 bg-theme-500 border-gray-700">
           <CardHeader>
             <CardTitle className="flex items-center text-purple-300">
-              <School className="mr-2 h-5 w-5" /> Basic Information
+              <SchoolIcon className="mr-2 h-5 w-5" /> Basic Information
             </CardTitle>
             <CardDescription className="text-gray-400">Update your school's basic details</CardDescription>
           </CardHeader>
@@ -156,7 +146,7 @@ const SchoolDashboard = () => {
               <Textarea 
                 id="description" 
                 name="description"
-                value={schoolData.description}
+                value={schoolData.description || ""}
                 onChange={handleChange}
                 rows={4}
                 className="bg-theme-400 border-gray-700"
@@ -181,14 +171,22 @@ const SchoolDashboard = () => {
               </div>
               
               <div className="space-y-2">
-                <Label htmlFor="establishedYear" className="text-gray-300">Established Year</Label>
-                <Input 
-                  id="establishedYear" 
-                  name="establishedYear"
-                  value={schoolData.establishedYear}
-                  onChange={handleChange}
-                  className="bg-theme-400 border-gray-700"
-                />
+                <Label htmlFor="rating" className="text-gray-300">Rating (A to AAAAA)</Label>
+                <Select 
+                  value={schoolData.rating} 
+                  onValueChange={(value) => handleSelectChange('rating', value)}
+                >
+                  <SelectTrigger className="bg-theme-400 border-gray-700">
+                    <SelectValue placeholder="Select rating" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="AAAAA">AAAAA (5 star)</SelectItem>
+                    <SelectItem value="AAAA">AAAA (4 star)</SelectItem>
+                    <SelectItem value="AAA">AAA (3 star)</SelectItem>
+                    <SelectItem value="AA">AA (2 star)</SelectItem>
+                    <SelectItem value="A">A (1 star)</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
             </div>
             
@@ -296,7 +294,7 @@ const SchoolDashboard = () => {
                   <Input 
                     id="email" 
                     name="email"
-                    value={schoolData.email}
+                    value={schoolData.email || ""}
                     onChange={handleChange}
                     className="bg-theme-400 border-gray-700"
                   />
@@ -307,7 +305,7 @@ const SchoolDashboard = () => {
                   <Input 
                     id="phone" 
                     name="phone"
-                    value={schoolData.phone}
+                    value={schoolData.phone || ""}
                     onChange={handleChange}
                     className="bg-theme-400 border-gray-700"
                   />
@@ -320,7 +318,7 @@ const SchoolDashboard = () => {
                   <Input 
                     id="website" 
                     name="website"
-                    value={schoolData.website}
+                    value={schoolData.website || ""}
                     onChange={handleChange}
                     className="bg-theme-400 border-gray-700"
                   />
@@ -331,7 +329,7 @@ const SchoolDashboard = () => {
                   <Textarea 
                     id="address" 
                     name="address"
-                    value={schoolData.address}
+                    value={schoolData.address || ""}
                     onChange={handleChange}
                     className="bg-theme-400 border-gray-700"
                   />

@@ -4,134 +4,14 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Search } from "lucide-react";
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import SchoolCard, { School } from '../schools/SchoolCard';
+import SchoolCard from '../schools/SchoolCard';
 import SchoolsFilter from '../schools/SchoolsFilter';
-
-const mockSchools: School[] = [
-  {
-    id: 1,
-    name: "DAV Senior Secondary School",
-    type: "Private Unaided/Independent",
-    location: "Chandigarh, Chandigarh",
-    board: "Sr. Secondary/Higher Secondary School | CBSE",
-    rating: "AAAAA",
-    fees: "₹10,000 - ₹15,000/month",
-    residential: "Day-cum-Boarding School",
-    gender: "Co-ed",
-    imageUrl: "/placeholder.svg"
-  },
-  {
-    id: 2,
-    name: "Rose Public School",
-    type: "Private Unaided/Independent",
-    location: "Kangra, Himachal Pradesh",
-    board: "Sr. Secondary/Higher Secondary School | CBSE",
-    rating: "AAAAA",
-    fees: "₹8,000 - ₹12,000/month",
-    residential: "",
-    gender: "Co-ed",
-    imageUrl: "/placeholder.svg"
-  },
-  {
-    id: 3,
-    name: "St. Mary's Convent School",
-    type: "Private Unaided/Independent",
-    location: "Delhi, Delhi",
-    board: "Sr. Secondary/Higher Secondary School | ICSE",
-    rating: "AAAA",
-    fees: "₹15,000 - ₹20,000/month",
-    residential: "Day School",
-    gender: "Co-ed",
-    imageUrl: "/placeholder.svg"
-  },
-  {
-    id: 4,
-    name: "Little Flowers Public School",
-    type: "Private Unaided/Independent",
-    location: "Mumbai, Maharashtra",
-    board: "Primary School | State Board",
-    rating: "AAA",
-    fees: "₹5,000 - ₹8,000/month",
-    residential: "",
-    gender: "Co-ed",
-    imageUrl: "/placeholder.svg"
-  },
-  {
-    id: 5,
-    name: "Delhi Public School",
-    type: "Private Unaided/Independent",
-    location: "Bangalore, Karnataka",
-    board: "Sr. Secondary/Higher Secondary School | CBSE",
-    rating: "AAAAA",
-    fees: "₹18,000 - ₹25,000/month",
-    residential: "Day School",
-    gender: "Co-ed",
-    imageUrl: "/placeholder.svg"
-  },
-  {
-    id: 6,
-    name: "The Heritage School",
-    type: "Private Unaided/Independent",
-    location: "Kolkata, West Bengal",
-    board: "Sr. Secondary/Higher Secondary School | CBSE",
-    rating: "AAAA",
-    fees: "₹20,000 - ₹30,000/month",
-    residential: "Day School",
-    gender: "Co-ed",
-    imageUrl: "/placeholder.svg"
-  },
-  {
-    id: 7,
-    name: "Mount Carmel School",
-    type: "Private Unaided/Independent",
-    location: "Chennai, Tamil Nadu",
-    board: "Sr. Secondary/Higher Secondary School | State Board",
-    rating: "AAAA",
-    fees: "₹12,000 - ₹18,000/month",
-    residential: "",
-    gender: "Co-ed",
-    imageUrl: "/placeholder.svg"
-  },
-  {
-    id: 8,
-    name: "Springdales School",
-    type: "Private Unaided/Independent",
-    location: "Pune, Maharashtra",
-    board: "Sr. Secondary/Higher Secondary School | CBSE",
-    rating: "AAAAA",
-    fees: "₹22,000 - ₹28,000/month",
-    residential: "Day School",
-    gender: "Co-ed",
-    imageUrl: "/placeholder.svg"
-  },
-  {
-    id: 9,
-    name: "Kendriya Vidyalaya",
-    type: "Government",
-    location: "Hyderabad, Telangana",
-    board: "Sr. Secondary/Higher Secondary School | CBSE",
-    rating: "AAAA",
-    fees: "₹2,000 - ₹4,000/month",
-    residential: "",
-    gender: "Co-ed",
-    imageUrl: "/placeholder.svg"
-  },
-  {
-    id: 10,
-    name: "The Shri Ram School",
-    type: "Private Unaided/Independent",
-    location: "Gurgaon, Haryana",
-    board: "Sr. Secondary/Higher Secondary School | CBSE",
-    rating: "AAAAA",
-    fees: "₹25,000 - ₹35,000/month",
-    residential: "Day School",
-    gender: "Co-ed",
-    imageUrl: "/placeholder.svg"
-  }
-];
+import LocationFinder from '../schools/LocationFinder';
+import { useSchools } from '@/context/SchoolsContext';
 
 const ParentDashboard = () => {
-  const [filteredSchools, setFilteredSchools] = useState<School[]>(mockSchools);
+  const { schools, getNearbySchools, userLocation } = useSchools();
+  const [filteredSchools, setFilteredSchools] = useState(schools);
   const [searchTerm, setSearchTerm] = useState('');
   const [filters, setFilters] = useState({
     sortBy: 'overallRating',
@@ -150,7 +30,8 @@ const ParentDashboard = () => {
   };
 
   const applyFilters = (currentFilters: any) => {
-    let filtered = [...mockSchools];
+    // Start with all schools or nearby schools if location is set
+    let filtered = userLocation ? getNearbySchools(50) : [...schools];
     
     // Apply search filter
     if (searchTerm) {
@@ -215,7 +96,6 @@ const ParentDashboard = () => {
     // Apply class/grade filter
     if (currentFilters.classGrade) {
       // For now, we're just simulating this filter since we don't have class data
-      // In a real app, you would filter based on actual class data
       filtered = filtered;
     }
     
@@ -299,17 +179,17 @@ const ParentDashboard = () => {
     applyFilters(filters);
   };
 
+  // Update filtered schools when schools or location changes
   useEffect(() => {
-    // Initial filter application
     applyFilters(filters);
-  }, []);
+  }, [schools, userLocation]);
 
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="flex flex-col md:flex-row items-center justify-between mb-8">
         <div>
-          <h1 className="text-2xl md:text-3xl font-bold text-blue-700">Find Your Perfect Preschool</h1>
-          <p className="text-gray-600">Browse and filter from top preschools</p>
+          <h1 className="text-2xl md:text-3xl font-bold text-blue-700">Find Your Perfect School</h1>
+          <p className="text-gray-600">Browse and filter from top schools</p>
         </div>
       </div>
 
@@ -335,20 +215,30 @@ const ParentDashboard = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
           <div className="md:col-span-1">
+            <LocationFinder />
             <SchoolsFilter onFilterChange={handleFilterChange} />
           </div>
           
           <div className="md:col-span-3">
             <Card className="bg-blue-50 p-3 mb-4">
               <CardContent className="p-2">
-                <p className="font-medium">Showing {filteredSchools.length} Schools</p>
+                <p className="font-medium">
+                  {userLocation ? 'Showing schools near your location' : 'Showing all schools'} 
+                  ({filteredSchools.length} schools)
+                </p>
               </CardContent>
             </Card>
             
             <div className="space-y-4">
-              {filteredSchools.map(school => (
-                <SchoolCard key={school.id} school={school} />
-              ))}
+              {filteredSchools.length === 0 ? (
+                <div className="text-center py-8">
+                  <p className="text-gray-500">No schools match your current filters. Try adjusting your criteria.</p>
+                </div>
+              ) : (
+                filteredSchools.map(school => (
+                  <SchoolCard key={school.id} school={school} />
+                ))
+              )}
             </div>
           </div>
         </div>

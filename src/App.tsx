@@ -15,28 +15,31 @@ import ContactPage from "./pages/ContactPage";
 import HomePage from "./pages/HomePage";
 import SchoolLoginPage from "./pages/SchoolLoginPage";
 import SchoolDashboardPage from "./pages/SchoolDashboardPage";
+import { SchoolsProvider } from "./context/SchoolsContext";
 
 const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/parent-dashboard" element={<ParentPage />} />
-          <Route path="/admin-dashboard" element={<AdminPage />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/register" element={<RegisterPage />} />
-          <Route path="/about" element={<AboutPage />} />
-          <Route path="/contact" element={<ContactPage />} />
-          <Route path="/school-login" element={<SchoolLoginPage />} />
-          <Route path="/school-dashboard" element={<SchoolDashboardPage />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
+      <SchoolsProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/parent-dashboard" element={<ParentPage />} />
+            <Route path="/admin-dashboard" element={<AdminPage />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/register" element={<RegisterPage />} />
+            <Route path="/about" element={<AboutPage />} />
+            <Route path="/contact" element={<ContactPage />} />
+            <Route path="/school-login" element={<SchoolLoginPage />} />
+            <Route path="/school-dashboard" element={<SchoolDashboardPage />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </BrowserRouter>
+      </SchoolsProvider>
     </TooltipProvider>
   </QueryClientProvider>
 );

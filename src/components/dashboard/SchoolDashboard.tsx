@@ -218,7 +218,7 @@ const SchoolDashboard = () => {
                     <SelectItem value="Day School">Day School</SelectItem>
                     <SelectItem value="Boarding School">Boarding School</SelectItem>
                     <SelectItem value="Day-cum-Boarding School">Day-cum-Boarding</SelectItem>
-                    <SelectItem value="">Not Specified</SelectItem>
+                    <SelectItem value="Not Specified">Not Specified</SelectItem>
                   </SelectContent>
                 </Select>
               </div>

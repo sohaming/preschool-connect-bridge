@@ -1,39 +1,26 @@
-
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { 
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/components/ui/use-toast';
 import { useSchools } from '@/context/SchoolsContext';
-import { 
-  School as SchoolIcon, 
-  Upload, 
-  MapPin, 
-  Save,
-  Image,
-  FileText,
-  Database
-} from "lucide-react";
-
+import { School as SchoolIcon, Upload, MapPin, Save, Image, FileText, Database } from "lucide-react";
 const SchoolDashboard = () => {
-  const { schools, updateSchool } = useSchools();
+  const {
+    schools,
+    updateSchool
+  } = useSchools();
   const [isLoading, setIsLoading] = useState(false);
-  const { toast } = useToast();
-  
+  const {
+    toast
+  } = useToast();
+
   // Find school with ID 101 (Sunshine Academy) or use the first one
   const currentSchool = schools.find(s => s.id === 101) || schools[0];
-  
   const [schoolData, setSchoolData] = useState(currentSchool);
-
   useEffect(() => {
     if (currentSchool) {
       setSchoolData(currentSchool);
@@ -42,43 +29,45 @@ const SchoolDashboard = () => {
 
   // Handle input changes
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setSchoolData(prev => ({ ...prev, [name]: value }));
+    const {
+      name,
+      value
+    } = e.target;
+    setSchoolData(prev => ({
+      ...prev,
+      [name]: value
+    }));
   };
 
   // Handle select changes
   const handleSelectChange = (name: string, value: string) => {
-    setSchoolData(prev => ({ ...prev, [name]: value }));
+    setSchoolData(prev => ({
+      ...prev,
+      [name]: value
+    }));
   };
 
   // Handle save
   const handleSave = () => {
     setIsLoading(true);
-    
+
     // Update school data in context
     updateSchool(schoolData.id, schoolData);
-    
     setTimeout(() => {
       setIsLoading(false);
       toast({
         title: "Changes saved",
-        description: "Your school information has been updated successfully.",
+        description: "Your school information has been updated successfully."
       });
     }, 1000);
   };
-
-  return (
-    <div className="container mx-auto px-4 py-8">
+  return <div className="container mx-auto px-4 py-8">
       <div className="flex flex-col md:flex-row items-center justify-between mb-8">
         <div>
           <h1 className="text-2xl md:text-3xl font-bold text-purple-300">School Dashboard</h1>
           <p className="text-gray-400">Manage your school's information</p>
         </div>
-        <Button 
-          onClick={handleSave} 
-          className="mt-4 md:mt-0 bg-purple-600 hover:bg-purple-700"
-          disabled={isLoading}
-        >
+        <Button onClick={handleSave} className="mt-4 md:mt-0 bg-purple-600 hover:bg-purple-700" disabled={isLoading}>
           <Save className="mr-2 h-4 w-4" />
           {isLoading ? 'Saving...' : 'Save Changes'}
         </Button>
@@ -96,22 +85,13 @@ const SchoolDashboard = () => {
           <CardContent className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="name" className="text-gray-300">School Name</Label>
-              <Input 
-                id="name" 
-                name="name"
-                value={schoolData.name}
-                onChange={handleChange}
-                className="bg-theme-400 border-gray-700"
-              />
+              <Input id="name" name="name" value={schoolData.name} onChange={handleChange} className="bg-theme-400 border-gray-700 bg-zinc-950" />
             </div>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="type" className="text-gray-300">School Type</Label>
-                <Select 
-                  value={schoolData.type} 
-                  onValueChange={(value) => handleSelectChange('type', value)}
-                >
+                <Select value={schoolData.type} onValueChange={value => handleSelectChange('type', value)}>
                   <SelectTrigger className="bg-theme-400 border-gray-700">
                     <SelectValue placeholder="Select type" />
                   </SelectTrigger>
@@ -125,10 +105,7 @@ const SchoolDashboard = () => {
               
               <div className="space-y-2">
                 <Label htmlFor="board" className="text-gray-300">Board</Label>
-                <Select 
-                  value={schoolData.board} 
-                  onValueChange={(value) => handleSelectChange('board', value)}
-                >
+                <Select value={schoolData.board} onValueChange={value => handleSelectChange('board', value)}>
                   <SelectTrigger className="bg-theme-400 border-gray-700">
                     <SelectValue placeholder="Select board" />
                   </SelectTrigger>
@@ -143,27 +120,14 @@ const SchoolDashboard = () => {
             
             <div className="space-y-2">
               <Label htmlFor="description" className="text-gray-300">School Description</Label>
-              <Textarea 
-                id="description" 
-                name="description"
-                value={schoolData.description || ""}
-                onChange={handleChange}
-                rows={4}
-                className="bg-theme-400 border-gray-700"
-              />
+              <Textarea id="description" name="description" value={schoolData.description || ""} onChange={handleChange} rows={4} className="bg-theme-400 border-gray-700 bg-neutral-700" />
             </div>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="location" className="text-gray-300">Location</Label>
                 <div className="flex">
-                  <Input 
-                    id="location" 
-                    name="location"
-                    value={schoolData.location}
-                    onChange={handleChange}
-                    className="bg-theme-400 border-gray-700"
-                  />
+                  <Input id="location" name="location" value={schoolData.location} onChange={handleChange} className="bg-theme-400 border-gray-700 bg-zinc-600" />
                   <Button variant="ghost" className="ml-2 text-purple-300">
                     <MapPin className="h-4 w-4" />
                   </Button>
@@ -172,10 +136,7 @@ const SchoolDashboard = () => {
               
               <div className="space-y-2">
                 <Label htmlFor="rating" className="text-gray-300">Rating (A to AAAAA)</Label>
-                <Select 
-                  value={schoolData.rating} 
-                  onValueChange={(value) => handleSelectChange('rating', value)}
-                >
+                <Select value={schoolData.rating} onValueChange={value => handleSelectChange('rating', value)}>
                   <SelectTrigger className="bg-theme-400 border-gray-700">
                     <SelectValue placeholder="Select rating" />
                   </SelectTrigger>
@@ -193,22 +154,12 @@ const SchoolDashboard = () => {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="fees" className="text-gray-300">Fee Structure</Label>
-                <Input 
-                  id="fees" 
-                  name="fees"
-                  value={schoolData.fees}
-                  onChange={handleChange}
-                  placeholder="e.g. ₹5,000 - ₹8,000/month"
-                  className="bg-theme-400 border-gray-700"
-                />
+                <Input id="fees" name="fees" value={schoolData.fees} onChange={handleChange} placeholder="e.g. ₹5,000 - ₹8,000/month" className="bg-theme-400 border-gray-700 bg-zinc-600" />
               </div>
               
               <div className="space-y-2">
                 <Label htmlFor="residential" className="text-gray-300">Residential Type</Label>
-                <Select 
-                  value={schoolData.residential} 
-                  onValueChange={(value) => handleSelectChange('residential', value)}
-                >
+                <Select value={schoolData.residential} onValueChange={value => handleSelectChange('residential', value)}>
                   <SelectTrigger className="bg-theme-400 border-gray-700">
                     <SelectValue placeholder="Select type" />
                   </SelectTrigger>
@@ -223,10 +174,7 @@ const SchoolDashboard = () => {
               
               <div className="space-y-2">
                 <Label htmlFor="gender" className="text-gray-300">Gender</Label>
-                <Select 
-                  value={schoolData.gender} 
-                  onValueChange={(value) => handleSelectChange('gender', value)}
-                >
+                <Select value={schoolData.gender} onValueChange={value => handleSelectChange('gender', value)}>
                   <SelectTrigger className="bg-theme-400 border-gray-700">
                     <SelectValue placeholder="Select gender" />
                   </SelectTrigger>
@@ -252,11 +200,7 @@ const SchoolDashboard = () => {
           <CardContent className="space-y-4">
             <div className="flex justify-center mb-4">
               <div className="relative w-32 h-32 rounded-full overflow-hidden border-4 border-purple-700">
-                <img 
-                  src={schoolData.imageUrl || "/placeholder.svg"} 
-                  alt="School Logo" 
-                  className="w-full h-full object-cover"
-                />
+                <img src={schoolData.imageUrl || "/placeholder.svg"} alt="School Logo" className="w-full h-full object-cover" />
                 <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 opacity-0 hover:opacity-100 transition-opacity">
                   <Button variant="ghost" className="text-white p-1">
                     <Upload className="h-6 w-6" />
@@ -291,48 +235,24 @@ const SchoolDashboard = () => {
               <div className="space-y-4">
                 <div className="space-y-2">
                   <Label htmlFor="email" className="text-gray-300">Email Address</Label>
-                  <Input 
-                    id="email" 
-                    name="email"
-                    value={schoolData.email || ""}
-                    onChange={handleChange}
-                    className="bg-theme-400 border-gray-700"
-                  />
+                  <Input id="email" name="email" value={schoolData.email || ""} onChange={handleChange} className="bg-theme-400 border-gray-700 bg-zinc-600" />
                 </div>
                 
                 <div className="space-y-2">
                   <Label htmlFor="phone" className="text-gray-300">Phone Number</Label>
-                  <Input 
-                    id="phone" 
-                    name="phone"
-                    value={schoolData.phone || ""}
-                    onChange={handleChange}
-                    className="bg-theme-400 border-gray-700"
-                  />
+                  <Input id="phone" name="phone" value={schoolData.phone || ""} onChange={handleChange} className="bg-theme-400 border-gray-700 bg-zinc-600" />
                 </div>
               </div>
               
               <div className="space-y-4">
                 <div className="space-y-2">
                   <Label htmlFor="website" className="text-gray-300">Website</Label>
-                  <Input 
-                    id="website" 
-                    name="website"
-                    value={schoolData.website || ""}
-                    onChange={handleChange}
-                    className="bg-theme-400 border-gray-700"
-                  />
+                  <Input id="website" name="website" value={schoolData.website || ""} onChange={handleChange} className="bg-theme-400 border-gray-700 bg-zinc-600" />
                 </div>
                 
                 <div className="space-y-2">
                   <Label htmlFor="address" className="text-gray-300">Full Address</Label>
-                  <Textarea 
-                    id="address" 
-                    name="address"
-                    value={schoolData.address || ""}
-                    onChange={handleChange}
-                    className="bg-theme-400 border-gray-700"
-                  />
+                  <Textarea id="address" name="address" value={schoolData.address || ""} onChange={handleChange} className="bg-theme-400 border-gray-700 bg-zinc-600" />
                 </div>
               </div>
             </div>
@@ -382,8 +302,6 @@ const SchoolDashboard = () => {
           </CardContent>
         </Card>
       </div>
-    </div>
-  );
+    </div>;
 };
-
 export default SchoolDashboard;

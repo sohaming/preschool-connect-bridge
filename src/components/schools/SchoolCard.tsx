@@ -2,7 +2,8 @@
 import React from 'react';
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { MapPin } from "lucide-react";
+import { MapPin, ExternalLink } from "lucide-react";
+import { useNavigate } from 'react-router-dom';
 
 export interface School {
   id: number;
@@ -15,6 +16,39 @@ export interface School {
   residential: string;
   gender: string;
   imageUrl?: string;
+  description?: string;
+  email?: string;
+  phone?: string;
+  website?: string;
+  address?: string;
+  faculty?: SchoolFaculty[];
+  facilities?: SchoolFacility[];
+  achievements?: SchoolAchievement[];
+  gallery?: string[];
+}
+
+export interface SchoolFaculty {
+  id: number;
+  name: string;
+  position: string;
+  image?: string;
+  qualification?: string;
+  experience?: string;
+}
+
+export interface SchoolFacility {
+  id: number;
+  name: string;
+  description?: string;
+  image?: string;
+}
+
+export interface SchoolAchievement {
+  id: number;
+  title: string;
+  description?: string;
+  year?: string;
+  image?: string;
 }
 
 interface SchoolCardProps {
@@ -22,8 +56,14 @@ interface SchoolCardProps {
 }
 
 const SchoolCard = ({ school }: SchoolCardProps) => {
+  const navigate = useNavigate();
+  
+  const handleViewDetails = () => {
+    navigate(`/school-details/${school.id}`);
+  };
+  
   return (
-    <Card className="mb-6 overflow-hidden border border-gray-200">
+    <Card className="mb-6 overflow-hidden border border-gray-200 hover:shadow-lg transition-shadow">
       <div className="flex flex-col md:flex-row">
         <div className="w-full md:w-1/4 p-4 flex justify-center items-center bg-gray-100">
           <div className="rounded-full overflow-hidden w-24 h-24 border-4 border-blue-100">
@@ -82,6 +122,10 @@ const SchoolCard = ({ school }: SchoolCardProps) => {
               <Button className="bg-orange-500 hover:bg-orange-600">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-2"><path d="M14 9a2 2 0 0 1-2 2H6l-4 4V4c0-1.1.9-2 2-2h8a2 2 0 0 1 2 2v5Z"></path><path d="M18 9h2a2 2 0 0 1 2 2v11l-4-4h-6a2 2 0 0 1-2-2v-1"></path></svg>
                 Enquire
+              </Button>
+              <Button onClick={handleViewDetails} className="bg-blue-600 hover:bg-blue-700">
+                <ExternalLink className="mr-2 h-4 w-4" />
+                View Details
               </Button>
             </div>
           </CardContent>

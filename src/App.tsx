@@ -15,6 +15,7 @@ import ContactPage from "./pages/ContactPage";
 import HomePage from "./pages/HomePage";
 import SchoolLoginPage from "./pages/SchoolLoginPage";
 import SchoolDashboardPage from "./pages/SchoolDashboardPage";
+import SchoolDetailsPage from "./pages/SchoolDetailsPage";
 import { SchoolsProvider } from "./context/SchoolsContext";
 
 const queryClient = new QueryClient();
@@ -36,6 +37,7 @@ const App = () => (
             <Route path="/contact" element={<ContactPage />} />
             <Route path="/school-login" element={<SchoolLoginPage />} />
             <Route path="/school-dashboard" element={<SchoolDashboardPage />} />
+            <Route path="/school-details/:id" element={<SchoolDetailsPage />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
